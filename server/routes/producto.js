@@ -91,20 +91,15 @@ app.get('/productos/buscar/:termino', verificaToken, (req, res) => {
                 return res.status(500).json({
                     ok: false,
                     err
-                });
+                })
             }
 
             res.json({
                 ok: true,
                 productos
             })
-
         })
-
-
-});
-
-
+})
 
 //============================
 // Crear un producto
@@ -113,7 +108,7 @@ app.post('/productos', verificaToken, (req, res) => {
     // grabar el usuario
     // grabar una categoria del listado de categorias
 
-    let body = req.body;
+    let body = req.body
 
     let producto = new Producto({
         usuario: req.usuario._id,
@@ -123,7 +118,7 @@ app.post('/productos', verificaToken, (req, res) => {
         disponible: body.disponible,
         categoria: body.categoria
 
-    });
+    })
 
     producto.save((err, productoDB) => {
 
@@ -131,14 +126,14 @@ app.post('/productos', verificaToken, (req, res) => {
             return res.status(500).json({
                 ok: false,
                 err
-            });
+            })
         }
 
         res.status(201).json({
             ok: true,
             producto: productoDB
         })
-    });
+    })
 })
 
 //============================
@@ -148,8 +143,8 @@ app.put('/productos/:id', verificaToken, (req, res) => {
     // grabar el usuario
     // grabar una categoria del listado 
 
-    let id = req.params.id;
-    let body = req.body;
+    let id = req.params.id
+    let body = req.body
 
     Producto.findById(id, (err, productoDB) => {
 
@@ -157,7 +152,7 @@ app.put('/productos/:id', verificaToken, (req, res) => {
             return res.status(500).json({
                 ok: false,
                 err
-            });
+            })
         }
 
         if (!productoDB) {
@@ -166,14 +161,14 @@ app.put('/productos/:id', verificaToken, (req, res) => {
                 err: {
                     message: 'El ID no existe'
                 }
-            });
+            })
         }
 
-        productoDB.nombre = body.nombre;
-        productoDB.precioUni = body.precioUni;
-        productoDB.categoria = body.categoria;
-        productoDB.disponible = body.disponible;
-        productoDB.descripcion = body.descripcion;
+        productoDB.nombre = body.nombre
+        productoDB.precioUni = body.precioUni
+        productoDB.categoria = body.categoria
+        productoDB.disponible = body.disponible
+        productoDB.descripcion = body.descripcion
 
         productoDB.save((err, productoGuardado) => {
 
@@ -181,25 +176,23 @@ app.put('/productos/:id', verificaToken, (req, res) => {
                 return res.status(500).json({
                     ok: false,
                     err
-                });
+                })
             }
 
             res.json({
                 ok: true,
                 producto: productoGuardado
-            });
-
-        });
-
-    });
-});
+            })
+        })
+    })
+})
 
 //============================
 // Borrar  un producto
 //============================
 app.delete('/productos/:id', verificaToken, (req, res) => {
 
-    let id = req.params.id;
+    let id = req.params.id
 
     Producto.findById(id, (err, productoDB) => {
 
@@ -207,7 +200,7 @@ app.delete('/productos/:id', verificaToken, (req, res) => {
             return res.status(500).json({
                 ok: false,
                 err
-            });
+            })
         }
 
         if (!productoDB) {
@@ -216,10 +209,10 @@ app.delete('/productos/:id', verificaToken, (req, res) => {
                 err: {
                     message: 'ID no existe'
                 }
-            });
+            })
         }
 
-        productoDB.disponible = false;
+        productoDB.disponible = false
 
         productoDB.save((err, productoBorrado) => {
 
@@ -234,10 +227,8 @@ app.delete('/productos/:id', verificaToken, (req, res) => {
                 ok: true,
                 producto: productoBorrado,
                 mensaje: 'Producto borrado'
-            });
-
+            })
         })
-
     })
 })
 
